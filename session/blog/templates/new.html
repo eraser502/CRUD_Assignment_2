@@ -1,0 +1,64 @@
+{% load static %}
+<head>
+  <link rel="stylesheet" href="{% static 'css/new.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+</head>
+<body>
+  <div class="addBlogContainer">
+    <div class="headorBox">
+      <h1 class="headerTitle" onClick="goToHome()">{{user_name}}'s Blog</h1>
+      <div class="loginLogoutButtonBox">
+        {%if is_Login %}
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="logoutButton" type="submit">logout</button>
+        </form>
+        {% else %}
+        <div
+          class="logoutButton"
+          onClick="javascript:window.location.href='/login'"
+        >
+          login
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="backButtonBox">
+      <img
+        class="backButton"
+        src="{% static 'img/backArrow.png' %}"
+        onClick="goToHome()"
+      />
+    </div>
+    <h1 class="addBlogMainTitle">New blog post</h1>
+
+    <form class="addBlogForm" action="{%url 'create' user_name%}" method="POST">
+      {% csrf_token %} Title :
+      <input
+        class="addBlogtitle"
+        type="text"
+        name="title"
+        placeholder="Enter a title..."
+      />
+      Content :
+      <textarea
+        class="addBlogContent"
+        name="content"
+        id=""
+        placeholder="Enter a Content..."
+      ></textarea>
+      <input class="addBlogSubmitButton" type="submit" value="작성하기" />
+    </form>
+  </div>
+</body>
+<script>
+  function goToHome() {
+    // 현재 유저의 이름 가져오기
+    console.log('{{ request.user.username }}')
+    const user_name = '{{ request.user.username }}';
+    // 현재 유저의 홈 URL 생성
+    const home_url = `/${user_name}/blog/`;
+    // 홈 URL로 이동
+    window.location.href = home_url;
+  }
+  </script>

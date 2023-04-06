@@ -1,0 +1,74 @@
+{% load static %}
+<head>
+  <link rel="stylesheet" href="{% static 'css/edit.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+</head>
+<body>
+  <div class="editBlogContainer">
+    <div class="headorBox">
+        <h1 class="headerTitle" onClick="goToHome()">{{user_name}}'s Blog</h1>
+        <div class="loginLogoutButtonBox">
+          {%if is_Login %}
+          <form method="POST">
+            {% csrf_token %}
+            <button class="logoutButton" type="submit">logout</button>
+          </form>
+          {% else %}
+          <div
+            class="logoutButton"
+            onClick="javascript:window.location.href='/login'"
+          >
+            login
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    <div class="backButtonBox">
+      <img
+        class="backButton"
+        src="{% static 'img/backArrow.png' %}"
+        onClick="goToDetail()"
+      />
+    </div>
+    <h1 class="editBlogMainTitle">Edit blog post</h1>
+
+    <form
+      class="editBlogForm"
+      method="POST"
+      action="{% url 'update' user_name=edit_blog.author.username blog_id=edit_blog.id %}"
+    >
+      {% csrf_token %} Title :
+      <input
+        class="editBlogtitle"
+        type="text"
+        name="title"
+        placeholder="Enter a title..."
+        value="{{edit_blog.title}}"
+      />
+      Content :
+      <textarea
+        class="editBlogContent"
+        name="content"
+        id=""
+        placeholder="Enter a Content..."
+      >
+{{edit_blog.content}}</textarea
+      >
+      <input class="editBlogSubmitButton" type="submit" value="Edit" />
+    </form>
+  </div>
+</body>
+<script>
+  function goToDetail() {
+    // 현재 유저의 이름 가져오기
+    const user_name = "{{ request.user.username }}";
+    const blog_id = "{{ blog_id }}";
+    const home_url = `/${user_name}/blog/${blog_id}/`;
+    window.location.href = home_url;
+  }
+  function goToHome() {
+    const user_name = "{{ user_name }}";
+    const home_url = `/${user_name}/blog/`;
+    window.location.href = home_url;
+  }
+</script>

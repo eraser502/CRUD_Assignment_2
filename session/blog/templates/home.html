@@ -1,0 +1,60 @@
+{% load static %}
+<head>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+</head>
+<body>
+  <div class="homePageMainContainer">
+    <div class="headorBox">
+      <h1 class="headerTitle" onClick="goToHome()">{{user_name}}'s Blog</h1>
+      <div class="loginLogoutButtonBox">
+        {%if is_Login %}
+        <form method="POST">
+          {% csrf_token %}
+          <button class="logoutButton" type="submit">logout</button>
+        </form>
+        {% else %}
+        <div
+          class="logoutButton"
+          onClick="javascript:window.location.href='/login'"
+        >
+          login
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <form class="searchBox" method="get" action="{% url 'blog_search' user_name=user_name %}">
+      <input class="searchInput" type="text" name="query" placeholder="
+      Search by title...">
+      <button class="SearchButton" type="submit">Search</button>
+    </form>
+
+    <div class="blogListContainer">
+      {% for blog in blogs %}
+      <div
+        class="blogListBox"
+        onClick="javascript:window.location.href='/{{user_name}}/blog/{{blog.id}}'"
+      >
+        <h1 class="blogListTitle">{{blog.title}}</h1>
+        {{blog.summary}}<br />{{blog.created_at}}
+      </div>
+      {% endfor %}
+    </div>
+    <a href="{% url 'new' user_name %}">
+      {%if is_Login %}
+      <img class="blogAddButton" src="{% static 'img/add.png' %}" />
+      {% endif %}
+    </a>
+  </div>
+</body>
+<script>
+  function goToHome() {
+    // 현재 유저의 이름 가져오기
+    const user_name = "{{ user_name }}";
+    // 현재 유저의 홈 URL 생성
+    const home_url = `/${user_name}/blog/`;
+    // 홈 URL로 이동
+    window.location.href = home_url;
+  }
+</script>

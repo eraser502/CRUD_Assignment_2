@@ -1,0 +1,101 @@
+@font-face {
+  font-family: "KCC-Ganpan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCC-Ganpan.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: "KCC-Ganpan";
+  margin: 0;
+  background-image: url("/static/img/mainBackground.png");
+  background-repeat: no-repeat;
+    background-size: cover;
+}
+.detailPageMainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.blogDetailContainer {
+  display: flex;
+  max-width: 800px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.blogDetailTitle {
+  margin-bottom: 0;
+}
+.blogDetailSubHeader {
+  display: flex;
+  width: calc(100% - 40px);
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin-left: 40px;
+  gap: 12px
+}
+
+.blogDetailAuthor {
+  font-size: 1rem;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.7);
+}
+.blogDetailCreateAt {
+  font-size: 0.8rem;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+}
+.blogDetailContent {
+  padding: 20px;
+  width: calc(100% - 40px);
+  border-top: 1px solid #9f9f9f;
+  word-break: break-all;
+  white-space:pre;
+  
+}
+.buttonBox {
+  display: flex;
+  width: calc(100% - 40px);
+  max-width: 800px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 0px 20px;
+}
+.buttonIcon {
+  width: 28px;
+  height: 28px;
+  transition: 0.4s;
+}
+.buttonIcon:hover {
+  transform: scale(1.1);
+  width: 28px;
+}
+.commentContainer{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #9f9f9f;
+}
+.commentBox{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 1px solid #9f9f9f;
+}
+textarea[name=content]{
+  resize: none;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 1px 1px 1px;
+}
+textarea[name=content]:focus{
+  outline: none;
+}

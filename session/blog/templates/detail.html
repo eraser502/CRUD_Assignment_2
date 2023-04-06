@@ -1,0 +1,103 @@
+{% load static %}
+<head>
+  <link rel="stylesheet" href="{% static 'css/detail.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+</head>
+<body>
+  <div class="detailPageMainContainer">
+    <div class="headorBox">
+      <h1 class="headerTitle" onClick="goToHome()">{{user_name}}'s Blog</h1>
+      <div class="loginLogoutButtonBox">
+        {%if is_Login %}
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="logoutButton" type="submit">logout</button>
+        </form>
+        {% else %}
+        <div
+          class="logoutButton"
+          onClick="javascript:window.location.href='/login'"
+        >
+          login
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="blogDetailContainer">
+      <div class="buttonBox">
+        <img
+          class="buttonIcon"
+          src="{% static 'img/backArrow.png' %}"
+          onClick="goToHome()"
+        />
+        {%if is_Login %}
+        <div>
+          <img
+            class="buttonIcon"
+            src="{% static 'img/modify.png' %}"
+            onClick="goToEdit()"
+          />
+          <img
+            class="buttonIcon"
+            src="{% static 'img/delete.png' %}"
+            onClick="goToDelete()"
+          />
+        </div>
+        {% endif %}
+      </div>
+      <h1 class="blogDetailTitle">{{blog.title}}</h1>
+
+      <div class="blogDetailSubHeader">
+        <p class="blogDetailAuthor">Author:{{blog.author}}</p>
+        <p class="blogDetailCreateAt">CreateAt:{{blog.created_at}}</p>
+      </div>
+
+      <div class="blogDetailContent">{{blog.content}}</div>
+      <div class="commentContainer">
+        {% if is_Login %}
+        <h3>댓글 작성하기</h3>
+        <form method="post">
+          {% csrf_token %} {{ comment_form.as_p }}
+          <input type="hidden" name="blog_id" value="{{ blog.id }}" />
+          <button type="submit">작성하기</button>
+        </form>
+        {% endif %}
+
+        <h3>댓글 목록</h3>
+        
+          {% for comment in comments %}
+          <div class="commentBox">
+            <p>{{ comment.content }}</p>
+            <p>작성자: {{ comment.author }}</p>
+            <p>작성일자: {{ comment.created_at }}</p>
+          </div>
+          
+          {% empty %}
+          <p>아직 댓글이 없습니다.</p>
+          {% endfor %}
+        
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function goToHome() {
+    const user_name = "{{ user_name }}";
+    const home_url = `/${user_name}/blog/`;
+    window.location.href = home_url;
+  }
+  function goToEdit() {
+    const user_name = "{{ user.username }}";
+    const blog_id = "{{ blog.id }}";
+    const edit_url = `/${user_name}/blog/edit/${blog_id}/`;
+    window.location.href = edit_url;
+  }
+  function goToDelete() {
+    const user_name = "{{ user.username }}";
+    const blog_id = "{{ blog.id }}";
+
+    const delete_url = `/${user_name}/blog/delete/${blog_id}/`;
+    window.location.href = delete_url;
+  }
+</script>
